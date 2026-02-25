@@ -309,7 +309,7 @@
                         <li>14-day turnaround</li>
                         <li>30-day support</li>
                     </ul>
-                    <button class="btn btn-primary" style="width: 100%;" onclick="alert('Checkout coming soon')">Get Started</button>
+                    <button class="btn btn-primary" style="width: 100%;" onclick="startCheckout('base')">Get Started</button>
                 </div>
 
                 <div class="price-card featured">
@@ -354,7 +354,7 @@
             <h2>Ready to Build?</h2>
             <p>Tell us your app idea. We'll give you a quote and build it in weeks, not months.</p>
             <div class="hero-buttons">
-                <button class="btn" style="background: white; color: #3D8B7A;" onclick="alert('Checkout coming soon')">Start with Pro ($3,999)</button>
+                <button class="btn" style="background: white; color: #3D8B7A;" onclick="startCheckout('pro')">Start with Pro ($3,999)</button>
                 <button class="btn" style="border: 2px solid white; color: white;" onclick="window.location.href='mailto:gilbranlaureano0417@gmail.com?subject=App%20Factory%20Inquiry'">Chat with Us</button>
             </div>
         </div>
@@ -364,5 +364,44 @@
         <p>&copy; 2026 AI App Factory. All rights reserved.</p>
         <p style="margin-top: 0.5rem; font-size: 0.9rem;">Questions? Email <strong>gilbranlaureano0417@gmail.com</strong></p>
     </footer>
+
+    <script async src="https://js.stripe.com/v3"></script>
+    <script>
+        const stripe = Stripe('pk_live_51T4atmDXtLxdx2ZTOa31jbRLOkTnZINor3QucWkruirnPKtMhtHK4e5aEYbSvhLSCyKL4Q9Fy3eMIECGrhJZ0cok00OfRuBn2e');
+        
+        const pricing = {
+            base: { name: 'Base', amount: 199900, description: 'Base iOS App Development Package' },
+            pro: { name: 'Pro', amount: 399900, description: 'Pro iOS App Development Package' },
+            enterprise: { name: 'Enterprise', amount: 599900, description: 'Enterprise iOS App Development Package' }
+        };
+
+        function startCheckout(tier) {
+            const product = pricing[tier];
+            fetch('/checkout-session', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    tier: tier,
+                    amount: product.amount,
+                    description: product.description
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.sessionId) {
+                    stripe.redirectToCheckout({ sessionId: data.sessionId })
+                        .then(result => {
+                            if (result.error) alert(result.error.message);
+                        });
+                } else if (data.error) {
+                    alert('Error: ' + data.error);
+                }
+            })
+            .catch(err => {
+                console.error('Error:', err);
+                alert('Could not start checkout. Please try again.');
+            });
+        }
+    </script>
 </body>
 </html>

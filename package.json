@@ -1,0 +1,12 @@
+{
+  "name": "app-factory",
+  "version": "1.0.0",
+  "description": "AI App Factory - Custom iOS App Development Service",
+  "main": "index.html",
+  "dependencies": {
+    "stripe": "^14.7.0"
+  },
+  "engines": {
+    "node": "18.x"
+  }
+}
