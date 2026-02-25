@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI App Factory - Custom iOS Apps</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 999;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav h1 { font-size: 1.5rem; }
+        nav button {
+            background: #3D8B7A;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        nav button:hover { background: #2d6b5a; }
+        section { padding: 4rem 2rem; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .hero {
+            margin-top: 60px;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #EEEEF6 0%, #fff 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        .hero .highlight { color: #3D8B7A; }
+        .hero p {
+            font-size: 1.25rem;
+            color: #666;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            border: none;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: #3D8B7A;
+            color: white;
+        }
+        .btn-primary:hover { background: #2d6b5a; }
+        .btn-secondary {
+            background: transparent;
+            color: #3D8B7A;
+            border: 2px solid #3D8B7A;
+        }
+        .btn-secondary:hover { background: #EEEEF6; }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .feature {
+            background: #EEEEF6;
+            padding: 2rem;
+            border-radius: 8px;
+        }
+        .feature h3 { margin: 1rem 0; font-size: 1.25rem; }
+        .feature-icon { font-size: 2rem; }
+        h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .pricing {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .price-card {
+            border: 2px solid #ddd;
+            padding: 2rem;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .price-card:hover {
+            border-color: #3D8B7A;
+            box-shadow: 0 8px 16px rgba(61, 139, 122, 0.2);
+        }
+        .price-card.featured {
+            border: 3px solid #3D8B7A;
+            box-shadow: 0 8px 16px rgba(61, 139, 122, 0.2);
+            position: relative;
+            transform: scale(1.05);
+        }
+        .badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #3D8B7A;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+        .price {
+            font-size: 2.5rem;
+            color: #3D8B7A;
+            margin: 1rem 0;
+        }
+        .features-list {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+        .features-list li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+        }
+        .features-list li:before {
+            content: "✓";
+            color: #F26419;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        .case-study {
+            background: #EEEEF6;
+            border-radius: 8px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        @media (max-width: 768px) {
+            .case-study { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2rem; }
+            .price-card.featured { transform: scale(1); }
+        }
+        .cta-section {
+            background: #3D8B7A;
+            color: white;
+            text-align: center;
+        }
+        .cta-section h2 { color: white; }
+        .cta-section p { font-size: 1.1rem; margin-bottom: 2rem; }
+        footer {
+            background: #f5f5f5;
+            padding: 2rem;
+            text-align: center;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <h1>⚙️ App Factory</h1>
+        <button onclick="document.getElementById('pricing').scrollIntoView({behavior: 'smooth'})">Get Started</button>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Build Your iOS App <span class="highlight">in Weeks</span></h1>
+            <p>We design, build, and submit your custom iOS app to the App Store. Powered by AI architecture and human expertise.</p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary" onclick="document.getElementById('pricing').scrollIntoView({behavior: 'smooth'})">View Pricing</button>
+                <button class="btn btn-secondary" onclick="document.getElementById('case-study').scrollIntoView({behavior: 'smooth'})">See How It Works</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="features">
+        <div class="container">
+            <h2>What's Included</h2>
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">🎨</div>
+                    <h3>UI/UX Design</h3>
+                    <p>Custom SwiftUI interfaces tailored to your brand and user needs.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">💻</div>
+                    <h3>Native iOS Development</h3>
+                    <p>Modern Swift + SwiftUI with SwiftData persistence and offline support.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">📲</div>
+                    <h3>App Store Submission</h3>
+                    <p>Full app submission, review guidance, and app store optimization.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔐</div>
+                    <h3>Security & Privacy</h3>
+                    <p>Built-in encryption, privacy policy templates, and GDPR compliance.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">📊</div>
+                    <h3>Analytics Ready</h3>
+                    <p>Integrated with Mixpanel, Firebase, or custom analytics backends.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Launch Support</h3>
+                    <p>Post-launch monitoring, bug fixes, and version updates included for 30 days.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="case-study">
+        <div class="container case-study">
+            <div>
+                <h2 style="text-align: left;">Case Study: FocusMind</h2>
+                <h3>ADHD Productivity App</h3>
+                <p style="margin-top: 1rem;">A SwiftUI-native daily planner designed to help ADHD users manage focus, habits, and dopamine. Built with:</p>
+                <ul style="list-style: none; margin: 1.5rem 0;">
+                    <li style="margin: 0.75rem 0;">→ <strong>SwiftUI + SwiftData</strong> for modern, responsive design</li>
+                    <li style="margin: 0.75rem 0;">→ <strong>StoreKit 2</strong> in-app subscriptions ($4.99/mo, $29.99/yr)</li>
+                    <li style="margin: 0.75rem 0;">→ <strong>12 custom screens</strong> + onboarding flow</li>
+                    <li style="margin: 0.75rem 0;">→ <strong>App Store submission</strong> in 3 days</li>
+                </ul>
+                <div style="background: white; padding: 1.5rem; border-radius: 6px; margin-top: 2rem;">
+                    <p style="font-size: 0.9rem; color: #666;">Results:</p>
+                    <p style="font-size: 1.25rem; font-weight: bold; color: #3D8B7A;">Approved & Live on App Store</p>
+                    <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">Built in 2 weeks. Submitted for review. Now taking subscriptions.</p>
+                </div>
+            </div>
+            <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                <p style="font-size: 0.85rem; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.5rem;">Tech Stack</p>
+                <div style="space-y: 1rem;">
+                    <div style="display: flex; justify-content: space-between; padding: 0.75rem 0; border-bottom: 1px solid #eee;">
+                        <span>Language</span>
+                        <span style="font-weight: bold;">Swift 5.9+</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 0.75rem 0; border-bottom: 1px solid #eee;">
+                        <span>Framework</span>
+                        <span style="font-weight: bold;">SwiftUI</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 0.75rem 0; border-bottom: 1px solid #eee;">
+                        <span>Persistence</span>
+                        <span style="font-weight: bold;">SwiftData</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 0.75rem 0; border-bottom: 1px solid #eee;">
+                        <span>Monetization</span>
+                        <span style="font-weight: bold;">StoreKit 2</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 0.75rem 0; border-bottom: 1px solid #eee;">
+                        <span>Design</span>
+                        <span style="font-weight: bold;">Custom SwiftUI</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 0.75rem 0;">
+                        <span>Deployment</span>
+                        <span style="font-weight: bold;">App Store Connect</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing">
+        <div class="container">
+            <h2>Simple Pricing</h2>
+            <div class="pricing">
+                <div class="price-card">
+                    <h3>Base</h3>
+                    <p style="color: #666;">Great for simple apps</p>
+                    <div class="price">$1,999</div>
+                    <ul class="features-list">
+                        <li>3-5 core features</li>
+                        <li>SwiftUI interface</li>
+                        <li>Local data storage</li>
+                        <li>App Store submission</li>
+                        <li>14-day turnaround</li>
+                        <li>30-day support</li>
+                    </ul>
+                    <button class="btn btn-primary" style="width: 100%;" onclick="alert('Checkout coming soon')">Get Started</button>
+                </div>
+
+                <div class="price-card featured">
+                    <div class="badge">MOST POPULAR</div>
+                    <h3>Pro</h3>
+                    <p style="color: #666;">Best for growing apps</p>
+                    <div class="price">$3,999</div>
+                    <ul class="features-list">
+                        <li>10-15 features</li>
+                        <li>Custom API integration</li>
+                        <li>Push notifications</li>
+                        <li>In-app purchases</li>
+                        <li>Analytics dashboard</li>
+                        <li>21-day turnaround</li>
+                        <li>90-day support</li>
+                    </ul>
+                    <button class="btn btn-primary" style="width: 100%;" onclick="alert('Checkout coming soon')">Get Started</button>
+                </div>
+
+                <div class="price-card">
+                    <h3>Enterprise</h3>
+                    <p style="color: #666;">For complex platforms</p>
+                    <div class="price">$5,999+</div>
+                    <ul class="features-list">
+                        <li>Unlimited features</li>
+                        <li>Custom backend</li>
+                        <li>White-label option</li>
+                        <li>Real-time sync</li>
+                        <li>Phone support</li>
+                        <li>30-day turnaround</li>
+                        <li>6-month support</li>
+                    </ul>
+                    <button class="btn btn-secondary" style="width: 100%;" onclick="window.location.href='mailto:gilbranlaureano0417@gmail.com?subject=Enterprise%20App%20Development'">Contact Us</button>
+                </div>
+            </div>
+            <p style="text-align: center; color: #999; font-size: 0.9rem; margin-top: 2rem;">All prices are fixed. No hidden fees. You own 100% of the app and source code.</p>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Build?</h2>
+            <p>Tell us your app idea. We'll give you a quote and build it in weeks, not months.</p>
+            <div class="hero-buttons">
+                <button class="btn" style="background: white; color: #3D8B7A;" onclick="alert('Checkout coming soon')">Start with Pro ($3,999)</button>
+                <button class="btn" style="border: 2px solid white; color: white;" onclick="window.location.href='mailto:gilbranlaureano0417@gmail.com?subject=App%20Factory%20Inquiry'">Chat with Us</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 AI App Factory. All rights reserved.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Questions? Email <strong>gilbranlaureano0417@gmail.com</strong></p>
+    </footer>
+</body>
+</html>
